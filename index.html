@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blockchain Voting System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Blockchain Voting System</h1>
+
+  <div id="participants">
+    <div class="participant">
+      <label for="participant">Participant:</label>
+      <input type="text" id="participant" />
+    </div>
+  </div>
+
+  <button onclick="vote('A')">Vote for Participant A</button>
+  <button onclick="vote('B')">Vote for Participant B</button>
+
+  <div id="result"></div>
+
+  <div id="blockchain">
+    <h2>Blockchain</h2>
+    <p id="blockchain-data"></p>
+  </div>
+
+  <script>
+    let blockchain = [];
+
+    function vote(candidate) {
+      const participant = document.getElementById('participant').value;
+
+      // Generate a random hash value
+      const hash = generateRandomHash();
+
+      const voteData = {
+        participant: participant,
+        candidate: candidate,
+        hash: hash
+      };
+
+      blockchain.push(voteData);
+
+      displayResult(candidate);
+      displayBlockchain();
+    }
+
+    function generateRandomHash() {
+      const hashLength = 64; // Length of the hash in characters
+      const characters = '0123456789abcdef';
+      let hash = '';
+
+      for (let i = 0; i < hashLength; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        hash += characters[randomIndex];
+      }
+
+      return hash;
+    }
+
+    function displayResult(candidate) {
+      const resultText = `Successfully voted for Candidate ${candidate}. Thanks for voting!`;
+      document.getElementById('result').innerHTML = resultText;
+    }
+
+    function displayBlockchain() {
+      let blockchainText = '';
+
+      blockchain.forEach((vote, index) => {
+        const voteText = `Vote ${index + 1}: Participant: ${vote.participant}, Voted for: ${vote.candidate}, Hash: ${vote.hash}<br>`;
+        blockchainText += voteText;
+      });
+
+      document.getElementById('blockchain-data').innerHTML = blockchainText;
+    }
+  </script>
+</body>
+</html>
